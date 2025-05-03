@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
+import { cn } from '@/lib/utils'; // Import cn for conditional classes
 
 // Define the Zod schema for validation
 const quoteSchema = z.object({
@@ -59,8 +60,8 @@ export function RequestQuoteDialog({ serviceTitle, onOpenChange }: RequestQuoteD
   };
 
   return (
-    // Removed the Dialog wrapper component
-    <DialogContent className="sm:max-w-[425px]">
+    // Apply max height and overflow for scrolling
+    <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
       <DialogHeader>
         <DialogTitle>Solicitar Orçamento: {serviceTitle}</DialogTitle>
         <DialogDescription>
@@ -68,7 +69,8 @@ export function RequestQuoteDialog({ serviceTitle, onOpenChange }: RequestQuoteD
         </DialogDescription>
       </DialogHeader>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4">
+        {/* Added overflow-y-auto here as well for nested scroll if needed, but DialogContent handles the main scroll */}
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 py-4 overflow-y-auto">
           <FormField
             control={form.control}
             name="name"
@@ -115,13 +117,14 @@ export function RequestQuoteDialog({ serviceTitle, onOpenChange }: RequestQuoteD
               <FormItem>
                 <FormLabel>Mensagem</FormLabel>
                 <FormControl>
-                  <Textarea placeholder="Descreva o que você precisa, informe detalhes relevantes..." {...field} />
+                  <Textarea placeholder="Descreva o que você precisa, informe detalhes relevantes..." {...field} rows={4} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <DialogFooter>
+          {/* Sticky footer for better UX on scroll */}
+          <DialogFooter className="sticky bottom-0 bg-background py-4 -mx-6 px-6 border-t">
               <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
               Cancelar
               </Button>
@@ -132,6 +135,5 @@ export function RequestQuoteDialog({ serviceTitle, onOpenChange }: RequestQuoteD
         </form>
       </Form>
     </DialogContent>
-    // Removed the closing Dialog tag
   );
 }
