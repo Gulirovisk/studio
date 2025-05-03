@@ -1,9 +1,9 @@
-import { Button } from "@/components/ui/button";
+'use client';
+
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { LogIn } from 'lucide-react';
+import { LoginForm } from '@/components/auth/LoginForm'; // Import the new LoginForm component
 
 export default function LoginPage() {
   return (
@@ -17,29 +17,23 @@ export default function LoginPage() {
             Acesse sua conta para gerenciar seus serviços e vagas.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email ou Nome de Usuário</Label>
-            <Input id="email" type="email" placeholder="seuemail@exemplo.com" required />
-          </div>
-          <div className="space-y-2">
-             <div className="flex items-center justify-between">
-                 <Label htmlFor="password">Senha</Label>
-                 <Link href="#" className="text-sm text-primary hover:underline">
-                     Esqueceu a senha?
-                 </Link>
-             </div>
-            <Input id="password" type="password" required />
-          </div>
+        <CardContent>
+          {/* Use the LoginForm component */}
+          <LoginForm />
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
-          <Button className="w-full" variant="primary">Entrar</Button>
+           {/* Moved button inside LoginForm */}
           <p className="text-center text-sm text-muted-foreground">
             Não tem uma conta?{' '}
             <Link href="/auth/register" className="text-primary hover:underline font-medium">
               Crie uma agora
             </Link>
           </p>
+           <p className="text-center text-sm text-muted-foreground mt-2">
+              <Link href="#" className="text-primary hover:underline">
+                  Esqueceu a senha?
+              </Link>
+           </p>
         </CardFooter>
       </Card>
     </div>

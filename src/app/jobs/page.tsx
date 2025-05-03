@@ -1,10 +1,13 @@
+'use client'; // Make page a client component for interactions
+
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, MapPin, Briefcase, DollarSign, Clock, Calendar } from 'lucide-react'; // Added job icons
-import Image from 'next/image'; // Import Image component
+import { Search, MapPin, Briefcase, DollarSign, Calendar } from 'lucide-react'; // Removed Clock, used Calendar
+import Image from 'next/image';
+import { useToast } from '@/hooks/use-toast'; // Import useToast
 
 // Mock data for jobs - replace with actual data fetching
 const jobs = [
@@ -15,6 +18,20 @@ const jobs = [
 ];
 
 export default function JobsPage() {
+  const { toast } = useToast(); // Initialize useToast hook
+
+  const handleApplyClick = (jobTitle: string) => {
+    // Simulate application submission or redirection
+    console.log(`Applying for job: ${jobTitle}`);
+    toast({
+      title: "Candidatura Iniciada",
+      description: `Você iniciou o processo de candidatura para a vaga de ${jobTitle}.`,
+    });
+    // In a real app, this might redirect to an external application link
+    // or open a modal with an application form.
+  };
+
+
   return (
     <div className="space-y-8">
       <h1 className="text-3xl font-bold">Vagas de Emprego</h1>
@@ -74,12 +91,12 @@ export default function JobsPage() {
         {jobs.map((job) => (
           <Card key={job.id} className="overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 flex flex-col">
             <div className="relative h-48 w-full">
-               {/* Added placeholder image with AI hint */}
               <Image
                 src={job.image}
                 alt={job.title}
-                layout="fill"
-                objectFit="cover"
+                fill // Use fill instead of layout="fill"
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" // Add sizes prop for responsiveness
+                style={{ objectFit: "cover" }} // Use style object for objectFit
                 data-ai-hint={`${job.category} job workplace`}
               />
             </div>
@@ -115,7 +132,14 @@ export default function JobsPage() {
                  </div>
             </CardFooter>
               <div className="p-4 border-t bg-secondary/50">
-                 <Button className="w-full" variant="primary">Candidatar-se</Button>
+                 {/* Add onClick handler */}
+                 <Button
+                    className="w-full"
+                    variant="primary"
+                    onClick={() => handleApplyClick(job.title)}
+                  >
+                    Candidatar-se
+                  </Button>
              </div>
           </Card>
         ))}

@@ -1,10 +1,13 @@
+'use client'; // Make page a client component for dialog interaction
+
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, MapPin, Star, Calendar, Settings, Hammer, Paintbrush } from 'lucide-react'; // Added service icons
+import { Search, MapPin, Star, Calendar, Settings, Hammer, Paintbrush } from 'lucide-react';
 import Image from 'next/image';
+import { RequestQuoteDialogTrigger } from '@/components/services/RequestQuoteDialogTrigger'; // Import the dialog trigger
 
 // Mock data for services - replace with actual data fetching
 const services = [
@@ -65,8 +68,9 @@ export default function ServicesPage() {
                  <Image
                     src={service.image}
                     alt={service.title}
-                    layout="fill"
-                    objectFit="cover"
+                    fill // Use fill instead of layout="fill"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" // Add sizes prop for responsiveness
+                    style={{ objectFit: "cover" }} // Use style object for objectFit
                     data-ai-hint={`${service.category} service`}
                   />
              </div>
@@ -99,7 +103,10 @@ export default function ServicesPage() {
                  </div>
             </CardFooter>
              <div className="p-4 border-t bg-secondary/50">
-                 <Button className="w-full" variant="primary">Solicitar Orçamento</Button>
+                  {/* Wrap the Button with RequestQuoteDialogTrigger */}
+                 <RequestQuoteDialogTrigger serviceTitle={service.title}>
+                    <Button className="w-full" variant="primary">Solicitar Orçamento</Button>
+                 </RequestQuoteDialogTrigger>
              </div>
           </Card>
         ))}

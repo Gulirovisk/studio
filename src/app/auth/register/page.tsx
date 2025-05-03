@@ -1,9 +1,9 @@
-import { Button } from "@/components/ui/button";
+'use client';
+
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { UserPlus } from 'lucide-react';
+import { RegisterForm } from '@/components/auth/RegisterForm'; // Import the new RegisterForm component
 
 export default function RegisterPage() {
   return (
@@ -17,26 +17,12 @@ export default function RegisterPage() {
             Junte-se ao ServiConecta para encontrar ou oferecer serviços e vagas.
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="name">Nome Completo</Label>
-            <Input id="name" placeholder="Seu Nome Completo" required />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" type="email" placeholder="seuemail@exemplo.com" required />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Senha</Label>
-            <Input id="password" type="password" required />
-          </div>
-           <div className="space-y-2">
-            <Label htmlFor="confirm-password">Confirmar Senha</Label>
-            <Input id="confirm-password" type="password" required />
-          </div>
+        <CardContent>
+           {/* Use the RegisterForm component */}
+          <RegisterForm />
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
-          <Button className="w-full" variant="accent">Criar Conta</Button>
+          {/* Moved button inside RegisterForm */}
            <p className="text-center text-sm text-muted-foreground">
             Já possui uma conta?{' '}
             <Link href="/auth/login" className="text-primary hover:underline font-medium">
