@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { DialogTrigger } from '@/components/ui/dialog'; // Import DialogTrigger from shadcn
+import { Dialog, DialogTrigger } from '@/components/ui/dialog'; // Import Dialog from shadcn
 import { RequestQuoteDialog } from './RequestQuoteDialog'; // Import the actual dialog content
 
 interface RequestQuoteDialogTriggerProps {
@@ -13,15 +13,13 @@ export function RequestQuoteDialogTrigger({ serviceTitle, children }: RequestQuo
   const [isOpen, setIsOpen] = React.useState(false);
 
   return (
-    <>
-      <DialogTrigger asChild onClick={() => setIsOpen(true)}>
+    // Wrap with the Dialog root component
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger asChild>
         {children}
       </DialogTrigger>
-      <RequestQuoteDialog
-        serviceTitle={serviceTitle}
-        open={isOpen}
-        onOpenChange={setIsOpen}
-      />
-    </>
+      {/* Render the dialog content conditionally or always, Dialog handles visibility */}
+      {isOpen && <RequestQuoteDialog serviceTitle={serviceTitle} onOpenChange={setIsOpen} />}
+    </Dialog>
   );
 }
